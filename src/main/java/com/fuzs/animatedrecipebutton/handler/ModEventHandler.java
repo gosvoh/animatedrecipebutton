@@ -1,5 +1,7 @@
-package com.fuzs.animatedrecipebutton;
+package com.fuzs.animatedrecipebutton.handler;
 
+import com.fuzs.animatedrecipebutton.AnimatedRecipeButton;
+import com.fuzs.animatedrecipebutton.gui.GuiButtonAnimatedBook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
