@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
         version = AnimatedRecipeButton.VERSION,
         acceptedMinecraftVersions = AnimatedRecipeButton.RANGE,
         clientSideOnly = AnimatedRecipeButton.CLIENT,
+        dependencies = AnimatedRecipeButton.DEPENDENCIES,
         certificateFingerprint = AnimatedRecipeButton.FINGERPRINT
 )
 public class AnimatedRecipeButton {
@@ -23,8 +24,9 @@ public class AnimatedRecipeButton {
     public static final String MODID = "animatedrecipebutton";
     public static final String NAME = "Animated Recipe Button";
     public static final String VERSION = "@VERSION@";
-    public static final String RANGE = "[1.12, 1.12.2]";
+    public static final String RANGE = "[1.12.2]";
     public static final boolean CLIENT = true;
+    public static final String DEPENDENCIES = "required-after:forge@[14.23.5.2779,)";
     public static final String FINGERPRINT = "@FINGERPRINT@";
 
     public static final Logger LOGGER = LogManager.getLogger(AnimatedRecipeButton.NAME);
