@@ -1,6 +1,6 @@
 package com.fuzs.animatedrecipebutton;
 
-import com.fuzs.animatedrecipebutton.handler.ModEventHandler;
+import com.fuzs.animatedrecipebutton.handler.GuiEventHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -31,7 +31,7 @@ public class AnimatedRecipeButton {
 
     @EventHandler
     public void init(FMLInitializationEvent evt) {
-        MinecraftForge.EVENT_BUS.register(new ModEventHandler());
+        MinecraftForge.EVENT_BUS.register(new GuiEventHandler());
     }
 
     @EventHandler
