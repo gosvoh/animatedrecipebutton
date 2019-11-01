@@ -1,14 +1,28 @@
 package com.fuzs.animatedrecipebutton.handler;
 
-import com.fuzs.animatedrecipebutton.AnimatedRecipeButton;
-import com.fuzs.animatedrecipebutton.util.EnumBookDesign;
-import net.minecraftforge.common.config.Config;
+import com.fuzs.animatedrecipebutton.util.BookDesign;
+import net.minecraftforge.common.ForgeConfigSpec;
 
-@Config(modid = AnimatedRecipeButton.MODID)
 public class ConfigBuildHandler {
 
-	@Config.Name("Book Design")
-	@Config.Comment("Choose a book design to be used for the animation.")
-	public static EnumBookDesign bookDesign = EnumBookDesign.VANILLA;
+	private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+
+	public static final GeneralConfig GENERAL_CONFIG = new GeneralConfig("general");
+
+	public static class GeneralConfig {
+
+		public final ForgeConfigSpec.EnumValue<BookDesign> bookDesign;
+
+		private GeneralConfig(String name) {
+
+			BUILDER.push(name);
+			this.bookDesign = ConfigBuildHandler.BUILDER.comment("Choose a book design to be used for the animation.").defineEnum("Book Design", BookDesign.VANILLA);
+			BUILDER.pop();
+
+		}
+
+	}
+
+	public static final ForgeConfigSpec SPEC = BUILDER.build();
 	
 }

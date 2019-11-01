@@ -1,14 +1,14 @@
 package com.fuzs.animatedrecipebutton.util;
 
 @SuppressWarnings("unused")
-public enum EnumBookDesign {
+public enum BookDesign {
 
     VANILLA(0),
     CONCEPT(1);
 
     private final int id;
 
-    EnumBookDesign(int id) {
+    BookDesign(int id) {
         this.id = id;
     }
 

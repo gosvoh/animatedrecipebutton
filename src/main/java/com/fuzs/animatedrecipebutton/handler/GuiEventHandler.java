@@ -1,14 +1,15 @@
 package com.fuzs.animatedrecipebutton.handler;
 
-import com.fuzs.animatedrecipebutton.gui.GuiButtonBook;
+import com.fuzs.animatedrecipebutton.gui.BookButton;
 import com.fuzs.animatedrecipebutton.helper.ReflectionHelper;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.gui.inventory.GuiCrafting;
-import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.gui.recipebook.AbstractRecipeBookGui;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.inventory.AbstractFurnaceScreen;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.Iterator;
 import java.util.List;
@@ -19,42 +20,48 @@ public class GuiEventHandler {
     @SubscribeEvent
     public void guiInit(GuiScreenEvent.InitGuiEvent.Post evt) {
 
-        GuiScreen gui = evt.getGui();
-        GuiButtonBook animatedBook = null;
+        Screen screen = evt.getGui();
 
-        if (gui instanceof GuiCrafting) {
-            animatedBook = this.replaceButton((GuiCrafting) gui, 6, 49);
-        } else if (gui instanceof GuiInventory) {
-            animatedBook = this.replaceButton((GuiInventory) gui, 105, 22);
-        }
+        if (screen instanceof ContainerScreen) {
 
-        if (animatedBook == null) {
-            return;
-        }
+            ContainerScreen containerScreen = (ContainerScreen) screen;
+            List<Widget> buttonList = ReflectionHelper.getButtonList(containerScreen);
 
-        // from https://stackoverflow.com/questions/1196586/calling-remove-in-foreach-loop-in-java
-        List<GuiButton> buttonList = evt.getButtonList();
-        Iterator<GuiButton> iterator = buttonList.iterator();
-        boolean flag = false;
-        while (iterator.hasNext()) {
-            GuiButton button = iterator.next();
-            if (button.id == 10 && button.visible) {
-                iterator.remove();
-                flag = true;
+            if (buttonList != null) {
+
+                Iterator < Widget > iterator = buttonList.iterator();
+                ImageButton button = null;
+
+                while (iterator.hasNext()) {
+
+                    Widget widget = iterator.next();
+
+                    if (widget instanceof ImageButton) {
+                        button = (ImageButton) widget;
+                        iterator.remove();
+                        break;
+                    }
+
+                }
+
+                if (button != null) {
+
+                    // get recipe book for the button to check when it's opened, null is handeled later
+                    AbstractRecipeBookGui recipeBookScreen = null;
+                    if (containerScreen instanceof AbstractFurnaceScreen) {
+                        recipeBookScreen = ((AbstractFurnaceScreen) containerScreen).field_214088_k;
+                    }
+
+                    // replace vanilla recipe button in rendering list, isn't replaced in the list handling button presses
+                    BookButton animatedBook = new BookButton(button.x, button.y, button, recipeBookScreen);
+                    buttonList.add(animatedBook);
+                    ReflectionHelper.setButtonList(containerScreen, buttonList);
+
+                }
+
             }
+
         }
-
-        if (flag) {
-            buttonList.add(animatedBook);
-        }
-
-    }
-
-    private GuiButtonBook replaceButton(GuiContainer gui, int x, int y) {
-
-        GuiButtonBook animatedBook = new GuiButtonBook(10, gui.getGuiLeft() + x, gui.height / 2 - y);
-        ReflectionHelper.setRecipeButton(gui, animatedBook);
-        return animatedBook;
 
     }
 

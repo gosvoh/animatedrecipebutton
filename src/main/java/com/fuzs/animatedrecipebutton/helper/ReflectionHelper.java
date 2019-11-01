@@ -1,34 +1,43 @@
 package com.fuzs.animatedrecipebutton.helper;
 
 import com.fuzs.animatedrecipebutton.AnimatedRecipeButton;
-import net.minecraft.client.gui.GuiButtonImage;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.gui.inventory.GuiCrafting;
-import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+
+import java.util.List;
 
 public class ReflectionHelper {
 
-    private static final String GUIINVENTORY_RECIPEBUTTON = "field_192048_z";
-    private static final String GUICRAFTING_RECIPEBUTTON = "field_192049_w";
+    private static final String SCREEN_BUTTONS = "buttons";
 
-    public static void setRecipeButton(GuiContainer instance, GuiButtonImage button) {
+    @SuppressWarnings("unchecked")
+    public static <T extends ContainerScreen> List<Widget> getButtonList(T instance) {
 
         try {
 
-            if (instance instanceof GuiCrafting) {
-
-                ObfuscationReflectionHelper.setPrivateValue(GuiCrafting.class, (GuiCrafting) instance, button, GUICRAFTING_RECIPEBUTTON);
-
-            } else if (instance instanceof GuiInventory) {
-
-                ObfuscationReflectionHelper.setPrivateValue(GuiInventory.class, (GuiInventory) instance, button, GUIINVENTORY_RECIPEBUTTON);
-
-            }
+            return (List<Widget>) ObfuscationReflectionHelper.getPrivateValue(Screen.class, instance, SCREEN_BUTTONS);
 
         } catch (Exception e) {
 
-            AnimatedRecipeButton.LOGGER.error("setRecipeButton() failed", e);
+            AnimatedRecipeButton.LOGGER.error("getButtonList() failed", e);
+
+        }
+
+        return null;
+
+    }
+
+    public static <T extends ContainerScreen> void setButtonList(T instance, List<Widget> list) {
+
+        try {
+
+            ObfuscationReflectionHelper.setPrivateValue(Screen.class, instance, list, SCREEN_BUTTONS);
+
+        } catch (Exception e) {
+
+            AnimatedRecipeButton.LOGGER.error("setButtonList() failed", e);
 
         }
 
