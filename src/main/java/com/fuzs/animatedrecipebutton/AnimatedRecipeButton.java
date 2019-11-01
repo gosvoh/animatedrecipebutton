@@ -2,10 +2,14 @@ package com.fuzs.animatedrecipebutton;
 
 import com.fuzs.animatedrecipebutton.handler.GuiEventHandler;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.ConfigManager;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,6 +23,7 @@ import org.apache.logging.log4j.Logger;
         dependencies = AnimatedRecipeButton.DEPENDENCIES,
         certificateFingerprint = AnimatedRecipeButton.FINGERPRINT
 )
+@Mod.EventBusSubscriber(modid = AnimatedRecipeButton.MODID)
 public class AnimatedRecipeButton {
 
     public static final String MODID = "animatedrecipebutton";
@@ -40,4 +45,14 @@ public class AnimatedRecipeButton {
     public void fingerprintViolation(FMLFingerprintViolationEvent evt) {
         LOGGER.warn("Invalid fingerprint detected! The file " + evt.getSource().getName() + " may have been tampered with. This version will NOT be supported by the author!");
     }
+
+    @SubscribeEvent
+    public static void configChanged(ConfigChangedEvent.OnConfigChangedEvent evt) {
+
+        if (evt.getModID().equals(AnimatedRecipeButton.MODID)) {
+            ConfigManager.sync(AnimatedRecipeButton.MODID, Config.Type.INSTANCE);
+        }
+
+    }
+
 }

@@ -1,35 +1,31 @@
 package com.fuzs.animatedrecipebutton.gui;
 
+import com.fuzs.animatedrecipebutton.AnimatedRecipeButton;
+import com.fuzs.animatedrecipebutton.handler.ConfigBuildHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButtonImage;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 
-@SideOnly(Side.CLIENT)
-public class GuiButtonAnimatedBook extends GuiButtonImage {
+public class GuiButtonBook extends GuiButtonImage {
 
-    private final ResourceLocation resourceLocation;
-    private final int xTexStart;
-    private final int yTexStart;
-    private final int yOffset;
+    private static final ResourceLocation BOOK_BUTTON = new ResourceLocation(AnimatedRecipeButton.MODID, "textures/gui/recipe_button.png");
 
     private float animationTicks;
     private boolean bookVisible;
 
-    public GuiButtonAnimatedBook(int buttonId, int posX, int posY, int widthIn, int heightIn, int textureX, int textureY, int p_i47392_8_, ResourceLocation texture) {
+    public GuiButtonBook(int buttonId, int posX, int posY) {
 
-        super(buttonId, posX, posY, widthIn, heightIn, textureX, textureY, p_i47392_8_, texture);
-        this.xTexStart = textureX;
-        this.yTexStart = textureY;
-        this.yOffset = p_i47392_8_;
-        this.resourceLocation = texture;
+        super(buttonId, posX, posY, 20, 18, 0, 0, 18, BOOK_BUTTON);
 
     }
 
+    /**
+     * Move button when recipe book is opened or closed, called by current gui container
+     */
+    @Override
     public void setPosition(int posX, int posY) {
 
         this.x = posX + 1;
@@ -44,6 +40,7 @@ public class GuiButtonAnimatedBook extends GuiButtonImage {
     /**
      * Draws this button to the screen.
      */
+    @Override
     public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks) {
 
         if (this.visible) {
@@ -51,24 +48,24 @@ public class GuiButtonAnimatedBook extends GuiButtonImage {
             this.bookVisible = mc.player.getRecipeBook().isGuiOpen();
 
             this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-            mc.getTextureManager().bindTexture(this.resourceLocation);
+            mc.getTextureManager().bindTexture(BOOK_BUTTON);
             GlStateManager.disableDepth();
 
-            int i = this.xTexStart;
-            int j = this.yTexStart;
+            int posX = 0;
+            int posY = ConfigBuildHandler.bookDesign.getId() * 2 * this.height;
 
             if (this.hovered) {
-                this.animationTicks = Math.min(3.0F, this.animationTicks + partialTicks / 2.0F);
+                this.animationTicks = Math.min(4.0F, this.animationTicks + partialTicks / 2.0F);
             } else {
                 this.animationTicks = Math.max(0.0F, this.animationTicks - partialTicks / 2.0F);
             }
 
             if (this.bookVisible) {
-                j += 20;
+                posY += this.height;
             }
 
-            i += Math.round(this.animationTicks) * 20;
-            this.drawTexturedModalRect(this.x, this.y - this.yOffset, i, j, this.width, this.height + this.yOffset);
+            posX += Math.round(this.animationTicks) * this.width;
+            this.drawTexturedModalRect(this.x, this.y, posX, posY, this.width, this.height);
             GlStateManager.enableDepth();
 
         }

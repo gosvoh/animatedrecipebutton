@@ -1,14 +1,12 @@
 package com.fuzs.animatedrecipebutton.handler;
 
-import com.fuzs.animatedrecipebutton.AnimatedRecipeButton;
-import com.fuzs.animatedrecipebutton.gui.GuiButtonAnimatedBook;
+import com.fuzs.animatedrecipebutton.gui.GuiButtonBook;
 import com.fuzs.animatedrecipebutton.helper.ReflectionHelper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiCrafting;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -17,19 +15,17 @@ import java.util.List;
 
 public class GuiEventHandler {
 
-    private static final ResourceLocation ANIMATED_RECIPE_BUTTON = new ResourceLocation(AnimatedRecipeButton.MODID, "textures/gui/recipe_button.png");
-
     @SuppressWarnings("unused")
     @SubscribeEvent
     public void guiInit(GuiScreenEvent.InitGuiEvent.Post evt) {
 
         GuiScreen gui = evt.getGui();
-        GuiButtonAnimatedBook animatedBook = null;
+        GuiButtonBook animatedBook = null;
 
         if (gui instanceof GuiCrafting) {
-            animatedBook = this.replaceButton((GuiCrafting) gui, 5, 49);
+            animatedBook = this.replaceButton((GuiCrafting) gui, 6, 49);
         } else if (gui instanceof GuiInventory) {
-            animatedBook = this.replaceButton((GuiInventory) gui, 104, 22);
+            animatedBook = this.replaceButton((GuiInventory) gui, 105, 22);
         }
 
         if (animatedBook == null) {
@@ -54,10 +50,9 @@ public class GuiEventHandler {
 
     }
 
-    private GuiButtonAnimatedBook replaceButton(GuiContainer gui, int x, int y) {
+    private GuiButtonBook replaceButton(GuiContainer gui, int x, int y) {
 
-        GuiButtonAnimatedBook animatedBook = new GuiButtonAnimatedBook(10, gui.getGuiLeft() + x, gui.height / 2 - y,
-                20, 18, 0, 0, 2, ANIMATED_RECIPE_BUTTON);
+        GuiButtonBook animatedBook = new GuiButtonBook(10, gui.getGuiLeft() + x, gui.height / 2 - y);
         ReflectionHelper.setRecipeButton(gui, animatedBook);
         return animatedBook;
 
