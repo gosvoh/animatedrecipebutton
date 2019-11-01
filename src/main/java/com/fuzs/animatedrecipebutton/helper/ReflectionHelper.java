@@ -1,9 +1,9 @@
 package com.fuzs.animatedrecipebutton.helper;
 
 import com.fuzs.animatedrecipebutton.AnimatedRecipeButton;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import java.util.List;
@@ -13,11 +13,11 @@ public class ReflectionHelper {
     private static final String SCREEN_BUTTONS = "buttons";
 
     @SuppressWarnings("unchecked")
-    public static <T extends ContainerScreen> List<Widget> getButtonList(T instance) {
+    public static <T extends GuiContainer> List<GuiButton> getButtonList(T instance) {
 
         try {
 
-            return (List<Widget>) ObfuscationReflectionHelper.getPrivateValue(Screen.class, instance, SCREEN_BUTTONS);
+            return (List<GuiButton>) ObfuscationReflectionHelper.getPrivateValue(GuiScreen.class, instance, SCREEN_BUTTONS);
 
         } catch (Exception e) {
 
@@ -29,11 +29,11 @@ public class ReflectionHelper {
 
     }
 
-    public static <T extends ContainerScreen> void setButtonList(T instance, List<Widget> list) {
+    public static <T extends GuiContainer> void setButtonList(T instance, List<GuiButton> list) {
 
         try {
 
-            ObfuscationReflectionHelper.setPrivateValue(Screen.class, instance, list, SCREEN_BUTTONS);
+            ObfuscationReflectionHelper.setPrivateValue(GuiScreen.class, instance, list, SCREEN_BUTTONS);
 
         } catch (Exception e) {
 
