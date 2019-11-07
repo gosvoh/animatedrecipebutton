@@ -2,6 +2,7 @@ package com.fuzs.animatedrecipebutton.gui;
 
 import com.fuzs.animatedrecipebutton.AnimatedRecipeButton;
 import com.fuzs.animatedrecipebutton.handler.ConfigBuildHandler;
+import com.fuzs.animatedrecipebutton.util.EnumBookDesign;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButtonImage;
 import net.minecraft.client.renderer.GlStateManager;
@@ -45,19 +46,20 @@ public class GuiButtonBook extends GuiButtonImage {
 
         if (this.visible) {
 
+            this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
             this.bookVisible = mc.player.getRecipeBook().isGuiOpen();
 
-            this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+            EnumBookDesign design = ConfigBuildHandler.bookDesign;
             mc.getTextureManager().bindTexture(BOOK_BUTTON);
             GlStateManager.disableDepth();
 
             int posX = 0;
-            int posY = ConfigBuildHandler.bookDesign.getId() * 2 * this.height;
+            int posY = design.getId() * 2 * this.height;
 
             if (this.hovered) {
-                this.animationTicks = Math.min(4.0F, this.animationTicks + partialTicks / 2.0F);
+                this.animationTicks = Math.min(design.getFrames() - 1.0F, this.animationTicks + partialTicks * design.getSpeed());
             } else {
-                this.animationTicks = Math.max(0.0F, this.animationTicks - partialTicks / 2.0F);
+                this.animationTicks = Math.max(0.0F, this.animationTicks - partialTicks * design.getSpeed());
             }
 
             if (this.bookVisible) {
