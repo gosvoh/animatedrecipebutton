@@ -2,6 +2,7 @@ package com.fuzs.animatedrecipebutton.gui;
 
 import com.fuzs.animatedrecipebutton.AnimatedRecipeButton;
 import com.fuzs.animatedrecipebutton.handler.ConfigBuildHandler;
+import com.fuzs.animatedrecipebutton.util.BookDesign;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButtonImage;
 import net.minecraft.client.renderer.GlStateManager;
@@ -35,6 +36,7 @@ public class BookButton extends GuiButtonImage {
 
             this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 
+            BookDesign design = ConfigBuildHandler.GENERAL_CONFIG.bookDesign.get();
             Minecraft mc = Minecraft.getInstance();
             mc.getTextureManager().bindTexture(BOOK_BUTTON);
             GlStateManager.disableDepthTest();
@@ -50,13 +52,13 @@ public class BookButton extends GuiButtonImage {
             this.y = this.parent.y;
 
             if (this.hovered) {
-                this.animationTicks = Math.min(4.0F, this.animationTicks + partialTicks / 2.0F);
+                this.animationTicks = Math.min(design.getFrames() - 1.0F, this.animationTicks + partialTicks * design.getSpeed());
             } else {
-                this.animationTicks = Math.max(0.0F, this.animationTicks - partialTicks / 2.0F);
+                this.animationTicks = Math.max(0.0F, this.animationTicks - partialTicks * design.getSpeed());
             }
 
             int posX = Math.round(this.animationTicks) * this.width;
-            int posY = ConfigBuildHandler.GENERAL_CONFIG.bookDesign.get().getId() * 2 * this.height;
+            int posY = design.getId() * 2 * this.height;
 
             if (this.bookVisible) {
                 posY += this.height;
