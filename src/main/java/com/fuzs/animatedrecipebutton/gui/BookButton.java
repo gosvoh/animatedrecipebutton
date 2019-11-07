@@ -2,6 +2,7 @@ package com.fuzs.animatedrecipebutton.gui;
 
 import com.fuzs.animatedrecipebutton.AnimatedRecipeButton;
 import com.fuzs.animatedrecipebutton.handler.ConfigBuildHandler;
+import com.fuzs.animatedrecipebutton.util.BookDesign;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.recipebook.AbstractRecipeBookGui;
@@ -34,6 +35,7 @@ public class BookButton extends ImageButton {
 
         if (this.visible) {
 
+            BookDesign design = ConfigBuildHandler.GENERAL_CONFIG.bookDesign.get();
             Minecraft mc = Minecraft.getInstance();
             mc.getTextureManager().bindTexture(BOOK_BUTTON);
             GlStateManager.disableDepthTest();
@@ -49,13 +51,13 @@ public class BookButton extends ImageButton {
             this.y = this.parent.y;
 
             if (this.isHovered()) {
-                this.animationTicks = Math.min(4.0F, this.animationTicks + partialTicks / 2.0F);
+                this.animationTicks = Math.min(design.getFrames() - 1.0F, this.animationTicks + partialTicks * design.getSpeed());
             } else {
-                this.animationTicks = Math.max(0.0F, this.animationTicks - partialTicks / 2.0F);
+                this.animationTicks = Math.max(0.0F, this.animationTicks - partialTicks * design.getSpeed());
             }
 
             int posX = Math.round(this.animationTicks) * this.width;
-            int posY = ConfigBuildHandler.GENERAL_CONFIG.bookDesign.get().getId() * 2 * this.height;
+            int posY = design.getId() * 2 * this.height;
 
             if (this.bookVisible) {
                 posY += this.height;
