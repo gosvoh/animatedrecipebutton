@@ -10,7 +10,6 @@ import net.minecraft.client.gui.recipebook.AbstractRecipeBookGui;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.util.ResourceLocation;
 
-@SuppressWarnings({"NullableProblems", "FieldCanBeLocal", "FieldMayBeFinal"})
 public class BookButton extends ImageButton {
 
     private static final ResourceLocation BOOK_BUTTON = new ResourceLocation(AnimatedRecipeButton.MODID, "textures/gui/recipe_button.png");
@@ -20,9 +19,6 @@ public class BookButton extends ImageButton {
 
     private float animationTicks;
     private boolean bookVisible;
-    private boolean visible = this.field_230694_p_;
-    private int x = this.field_230690_l_, y = this.field_230691_m_;
-    private int width = this.field_230688_j_, height = this.field_230689_k_;
 
     public BookButton(int posX, int posY, ImageButton button, AbstractRecipeBookGui recipeBookScreen) {
 
@@ -37,9 +33,9 @@ public class BookButton extends ImageButton {
      * Draws this button to the screen.
      */
     @Override
-    public void func_230431_b_(MatrixStack stack, int mouseX, int mouseY, float partialTicks) {
+    public void func_230431_b_(@SuppressWarnings("NullableProblems") MatrixStack stack, int mouseX, int mouseY, float partialTicks) {
 
-        if (this.visible) {
+        if (this.field_230694_p_) { //this.visible
 
             BookDesign design = ConfigBuildHandler.GENERAL_CONFIG.bookDesign.get();
             Minecraft mc = Minecraft.getInstance();
@@ -54,8 +50,8 @@ public class BookButton extends ImageButton {
             }
 
             this.bookVisible = flag;
-            this.x = this.parent.field_230690_l_;
-            this.y = this.parent.field_230691_m_;
+            this.field_230690_l_ = this.parent.field_230690_l_; //this.x
+            this.field_230691_m_ = this.parent.field_230691_m_; //this.y
 
             if (this.func_230449_g_()) {
                 this.animationTicks = Math.min(design.getFrames() - 1.0F, this.animationTicks + partialTicks * design.getSpeed());
@@ -63,15 +59,15 @@ public class BookButton extends ImageButton {
                 this.animationTicks = Math.max(0.0F, this.animationTicks - partialTicks * design.getSpeed());
             }
 
-            int posX = Math.round(this.animationTicks) * this.width;
-            int posY = design.getId() * 2 * this.height;
+            int posX = Math.round(this.animationTicks) * this.field_230688_j_; //... * this.width
+            int posY = design.getId() * 2 * this.field_230689_k_; //... * this.height
 
             if (this.bookVisible) {
-                posY += this.height;
+                posY += this.field_230689_k_; //posY += this.height
             }
 
             // vanilla position usually isn't centered in relation to surroundings, + 1 will fix that
-            func_238474_b_(stack, this.x + 1, this.y, posX, posY, this.width, this.height);
+            func_238474_b_(stack, this.field_230690_l_ + 1, this.field_230691_m_, posX, posY, this.field_230688_j_, this.field_230689_k_);
             GlStateManager.enableDepthTest();
 
         }

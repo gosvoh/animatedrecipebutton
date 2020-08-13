@@ -14,10 +14,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import java.util.Iterator;
 import java.util.List;
 
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({"rawtypes", "unused"})
 public class GuiEventHandler {
 
-    @SuppressWarnings("unused")
     @SubscribeEvent
     public void guiInit(GuiScreenEvent.InitGuiEvent.Post evt) {
 
