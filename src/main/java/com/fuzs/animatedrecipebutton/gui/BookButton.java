@@ -21,7 +21,8 @@ public class BookButton extends ImageButton {
 
     public BookButton(int posX, int posY, ImageButton button, AbstractRecipeBookGui recipeBookScreen) {
 
-        super(posX, posY, 20, 18, 0, 0, 18, BOOK_BUTTON, it -> {});
+        super(posX, posY, 20, 18, 0, 0, 18, BOOK_BUTTON, it -> {
+        });
         this.parent = button;
         this.recipeBook = recipeBookScreen;
 
@@ -41,6 +42,7 @@ public class BookButton extends ImageButton {
             GlStateManager.disableDepthTest();
 
             // all recipe books are saved separately
+            //noinspection ConstantConditions
             boolean flag = mc.player.getRecipeBook().isGuiOpen() && this.recipeBook == null || this.recipeBook != null && this.recipeBook.isVisible();
             if (!this.bookVisible && flag) {
                 this.animationTicks = 0.0F;

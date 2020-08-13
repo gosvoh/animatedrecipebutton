@@ -14,6 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import java.util.Iterator;
 import java.util.List;
 
+@SuppressWarnings("rawtypes")
 public class GuiEventHandler {
 
     @SuppressWarnings("unused")
@@ -29,7 +30,7 @@ public class GuiEventHandler {
 
             if (buttonList != null) {
 
-                Iterator < Widget > iterator = buttonList.iterator();
+                Iterator<Widget> iterator = buttonList.iterator();
                 ImageButton button = null;
 
                 while (iterator.hasNext()) {
@@ -49,7 +50,7 @@ public class GuiEventHandler {
                     // get recipe book for the button to check when it's opened, null is handeled later
                     AbstractRecipeBookGui recipeBookScreen = null;
                     if (containerScreen instanceof AbstractFurnaceScreen) {
-                        recipeBookScreen = ((AbstractFurnaceScreen) containerScreen).field_214088_k;
+                        recipeBookScreen = ((AbstractFurnaceScreen) containerScreen).recipeGui;
                     }
 
                     // replace vanilla recipe button in rendering list, isn't replaced in the list handling button presses

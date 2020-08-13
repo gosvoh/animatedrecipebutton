@@ -8,16 +8,16 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import java.util.List;
 
+@SuppressWarnings("rawtypes")
 public class ReflectionHelper {
 
     private static final String SCREEN_BUTTONS = "buttons";
 
-    @SuppressWarnings("unchecked")
     public static <T extends ContainerScreen> List<Widget> getButtonList(T instance) {
 
         try {
 
-            return (List<Widget>) ObfuscationReflectionHelper.getPrivateValue(Screen.class, instance, SCREEN_BUTTONS);
+            return ObfuscationReflectionHelper.getPrivateValue(Screen.class, instance, SCREEN_BUTTONS);
 
         } catch (Exception e) {
 
