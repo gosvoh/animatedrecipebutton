@@ -8,6 +8,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.recipebook.AbstractRecipeBookGui;
 import net.minecraft.client.gui.widget.button.ImageButton;
+import net.minecraft.item.crafting.RecipeBookCategory;
 import net.minecraft.util.ResourceLocation;
 
 public class BookButton extends ImageButton {
@@ -19,14 +20,15 @@ public class BookButton extends ImageButton {
 
     private float animationTicks;
     private boolean bookVisible;
+    private final RecipeBookCategory category;
 
-    public BookButton(int posX, int posY, ImageButton button, AbstractRecipeBookGui recipeBookScreen) {
+    public BookButton(int posX, int posY, ImageButton button, AbstractRecipeBookGui recipeBookScreen, RecipeBookCategory category) {
 
         super(posX, posY, 20, 18, 0, 0, 18, BOOK_BUTTON, it -> {
         });
         this.parent = button;
         this.recipeBook = recipeBookScreen;
-
+        this.category = category;
     }
 
     /**
@@ -44,7 +46,7 @@ public class BookButton extends ImageButton {
 
             // all recipe books are saved separately
             //noinspection ConstantConditions
-            boolean flag = mc.player.getRecipeBook().isGuiOpen() && this.recipeBook == null || this.recipeBook != null && this.recipeBook.isVisible();
+            boolean flag = mc.player.getRecipeBook().func_242139_a().func_242151_a(category) && this.recipeBook == null || this.recipeBook != null && this.recipeBook.isVisible();
             if (!this.bookVisible && flag) {
                 this.animationTicks = 0.0F;
             }
@@ -67,7 +69,7 @@ public class BookButton extends ImageButton {
             }
 
             // vanilla position usually isn't centered in relation to surroundings, + 1 will fix that
-            func_238474_b_(stack, this.field_230690_l_ + 1, this.field_230691_m_, posX, posY, this.field_230688_j_, this.field_230689_k_);
+            func_238474_b_(stack, this.field_230690_l_ + 1, this.field_230691_m_, posX, posY, this.field_230688_j_, this.field_230689_k_); //blit(...)
             GlStateManager.enableDepthTest();
 
         }

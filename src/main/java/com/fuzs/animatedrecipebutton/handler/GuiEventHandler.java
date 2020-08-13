@@ -4,10 +4,10 @@ import com.fuzs.animatedrecipebutton.gui.BookButton;
 import com.fuzs.animatedrecipebutton.helper.ReflectionHelper;
 import net.minecraft.client.gui.recipebook.AbstractRecipeBookGui;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.inventory.AbstractFurnaceScreen;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.screen.inventory.*;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.ImageButton;
+import net.minecraft.item.crafting.RecipeBookCategory;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -45,15 +45,19 @@ public class GuiEventHandler {
                 }
 
                 if (button != null) {
+                    RecipeBookCategory category = RecipeBookCategory.CRAFTING;
 
                     // get recipe book for the button to check when it's opened, null is handeled later
                     AbstractRecipeBookGui recipeBookScreen = null;
-                    if (containerScreen instanceof AbstractFurnaceScreen) {
+                    if (containerScreen instanceof AbstractFurnaceScreen)
                         recipeBookScreen = ((AbstractFurnaceScreen) containerScreen).recipeGui;
-                    }
 
-                    // replace vanilla recipe button in rendering list, isn't replaced in the list handling button presses
-                    BookButton animatedBook = new BookButton(button.field_230690_l_, button.field_230691_m_, button, recipeBookScreen);
+                    if (containerScreen instanceof FurnaceScreen) category = RecipeBookCategory.FURNACE;
+                    if (containerScreen instanceof SmokerScreen) category = RecipeBookCategory.SMOKER;
+                    if (containerScreen instanceof BlastFurnaceScreen) category = RecipeBookCategory.BLAST_FURNACE;
+
+                        // replace vanilla recipe button in rendering list, isn't replaced in the list handling button presses
+                        BookButton animatedBook = new BookButton(button.field_230690_l_, button.field_230691_m_, button, recipeBookScreen, category);
                     buttonList.add(animatedBook);
                     ReflectionHelper.setButtonList(containerScreen, buttonList);
 
