@@ -53,7 +53,7 @@ public class BookButton extends ImageButton {
             this.field_230690_l_ = this.parent.field_230690_l_; //this.x
             this.field_230691_m_ = this.parent.field_230691_m_; //this.y
 
-            if (this.func_230449_g_()) {
+            if (this.func_230449_g_()) { //this.isHovered()
                 this.animationTicks = Math.min(design.getFrames() - 1.0F, this.animationTicks + partialTicks * design.getSpeed());
             } else {
                 this.animationTicks = Math.max(0.0F, this.animationTicks - partialTicks * design.getSpeed());
