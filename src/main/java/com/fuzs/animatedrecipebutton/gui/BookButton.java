@@ -3,12 +3,14 @@ package com.fuzs.animatedrecipebutton.gui;
 import com.fuzs.animatedrecipebutton.AnimatedRecipeButton;
 import com.fuzs.animatedrecipebutton.handler.ConfigBuildHandler;
 import com.fuzs.animatedrecipebutton.util.BookDesign;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.recipebook.AbstractRecipeBookGui;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.util.ResourceLocation;
 
+@SuppressWarnings({"NullableProblems", "FieldCanBeLocal", "FieldMayBeFinal"})
 public class BookButton extends ImageButton {
 
     private static final ResourceLocation BOOK_BUTTON = new ResourceLocation(AnimatedRecipeButton.MODID, "textures/gui/recipe_button.png");
@@ -18,6 +20,9 @@ public class BookButton extends ImageButton {
 
     private float animationTicks;
     private boolean bookVisible;
+    private boolean visible = this.field_230694_p_;
+    private int x = this.field_230690_l_, y = this.field_230691_m_;
+    private int width = this.field_230688_j_, height = this.field_230689_k_;
 
     public BookButton(int posX, int posY, ImageButton button, AbstractRecipeBookGui recipeBookScreen) {
 
@@ -32,7 +37,7 @@ public class BookButton extends ImageButton {
      * Draws this button to the screen.
      */
     @Override
-    public void renderButton(int mouseX, int mouseY, float partialTicks) {
+    public void func_230431_b_(MatrixStack stack, int mouseX, int mouseY, float partialTicks) {
 
         if (this.visible) {
 
@@ -49,10 +54,10 @@ public class BookButton extends ImageButton {
             }
 
             this.bookVisible = flag;
-            this.x = this.parent.x;
-            this.y = this.parent.y;
+            this.x = this.parent.field_230690_l_;
+            this.y = this.parent.field_230691_m_;
 
-            if (this.isHovered()) {
+            if (this.func_230449_g_()) {
                 this.animationTicks = Math.min(design.getFrames() - 1.0F, this.animationTicks + partialTicks * design.getSpeed());
             } else {
                 this.animationTicks = Math.max(0.0F, this.animationTicks - partialTicks * design.getSpeed());
@@ -66,7 +71,7 @@ public class BookButton extends ImageButton {
             }
 
             // vanilla position usually isn't centered in relation to surroundings, + 1 will fix that
-            blit(this.x + 1, this.y, posX, posY, this.width, this.height);
+            func_238474_b_(stack, this.x + 1, this.y, posX, posY, this.width, this.height);
             GlStateManager.enableDepthTest();
 
         }

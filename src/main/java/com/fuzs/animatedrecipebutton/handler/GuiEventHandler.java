@@ -54,7 +54,7 @@ public class GuiEventHandler {
                     }
 
                     // replace vanilla recipe button in rendering list, isn't replaced in the list handling button presses
-                    BookButton animatedBook = new BookButton(button.x, button.y, button, recipeBookScreen);
+                    BookButton animatedBook = new BookButton(button.field_230690_l_, button.field_230691_m_, button, recipeBookScreen);
                     buttonList.add(animatedBook);
                     ReflectionHelper.setButtonList(containerScreen, buttonList);
 

@@ -11,18 +11,14 @@ import java.util.List;
 @SuppressWarnings("rawtypes")
 public class ReflectionHelper {
 
-    private static final String SCREEN_BUTTONS = "buttons";
+    private static final String SCREEN_BUTTONS = "field_230710_m_";
 
     public static <T extends ContainerScreen> List<Widget> getButtonList(T instance) {
 
         try {
-
             return ObfuscationReflectionHelper.getPrivateValue(Screen.class, instance, SCREEN_BUTTONS);
-
         } catch (Exception e) {
-
             AnimatedRecipeButton.LOGGER.error("getButtonList() failed", e);
-
         }
 
         return null;
@@ -32,13 +28,9 @@ public class ReflectionHelper {
     public static <T extends ContainerScreen> void setButtonList(T instance, List<Widget> list) {
 
         try {
-
             ObfuscationReflectionHelper.setPrivateValue(Screen.class, instance, list, SCREEN_BUTTONS);
-
         } catch (Exception e) {
-
             AnimatedRecipeButton.LOGGER.error("setButtonList() failed", e);
-
         }
 
     }
