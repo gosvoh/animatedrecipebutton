@@ -67,7 +67,7 @@ public class BookButton extends ImageButton {
             }
 
             // vanilla position usually isn't centered in relation to surroundings, + 1 will fix that
-            func_238474_b_(stack, this.field_230690_l_ + 1, this.field_230691_m_, posX, posY, this.field_230688_j_, this.field_230689_k_);
+            func_238474_b_(stack, this.field_230690_l_ + 1, this.field_230691_m_, posX, posY, this.field_230688_j_, this.field_230689_k_); //blit(...)
             GlStateManager.enableDepthTest();
 
         }
